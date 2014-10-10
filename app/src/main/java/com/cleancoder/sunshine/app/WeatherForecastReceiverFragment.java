@@ -23,13 +23,24 @@ public class WeatherForecastReceiverFragment extends TaskFragment {
     public static WeatherForecastReceiverFragment newInstance(WeatherForecastRequest request) {
         WeatherForecastReceiverFragment fragment = new WeatherForecastReceiverFragment();
         Bundle args = new Bundle();
-        args.putParcelable(KEY_REQUEST, request);
+        args.putSerializable(KEY_REQUEST, request);
         fragment.setArguments(args);
         return fragment;
     }
 
     protected WeatherForecastRequest getWeatherForecastRequest() {
-        return getArguments().getParcelable(KEY_REQUEST);
+        return (WeatherForecastRequest) getArguments().getSerializable(KEY_REQUEST);
+    }
+
+    private static class ExceptionDisplay extends ExceptionDisplayFragment.DefaultExceptionDisplay {
+        public ExceptionDisplay(Throwable exception, final WeatherForecastRequest request) {
+            super(exception, new FragmentBuilder() {
+                @Override
+                public FragmentHelper build() {
+                    return newInstance(request);
+                }
+            });
+        }
     }
 
     @Override
@@ -47,14 +58,8 @@ public class WeatherForecastReceiverFragment extends TaskFragment {
 
             @Override
             protected void onException(Throwable exception) {
-                final WeatherForecastRequest request = getWeatherForecastRequest();
-                ExceptionDisplayFragment.ExceptionDisplay exceptionDisplay =
-                        new ExceptionDisplayFragment.DefaultExceptionDisplay(exception, new FragmentBuilder() {
-                            @Override
-                            public FragmentHelper build() {
-                                return newInstance(request);
-                            }
-                        });
+                WeatherForecastRequest request = getWeatherForecastRequest();
+                ExceptionDisplayFragment.ExceptionDisplay exceptionDisplay = new ExceptionDisplay(exception, request);
                 replaceItself(ExceptionDisplayFragment.newInstance(exceptionDisplay));
             }
         };

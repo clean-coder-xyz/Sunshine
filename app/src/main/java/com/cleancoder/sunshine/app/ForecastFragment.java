@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -54,4 +55,20 @@ public class ForecastFragment extends BaseApplicationFragment {
         inflater.inflate(R.menu.forecast_fragment, menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                onRefresh();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void onRefresh() {
+        MainActivity activity = (MainActivity) getActivity();
+        if (activity != null) {
+            activity.refresh();
+        }
+    }
 }

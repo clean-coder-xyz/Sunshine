@@ -17,8 +17,8 @@ public class ExceptionDisplayFragment extends FragmentHelper {
 
 
     public static abstract class ExceptionDisplay implements Serializable {
-        private final Throwable exception;
-        private final FragmentBuilder fragmentOnRetryBuilder;
+        protected final Throwable exception;
+        protected final FragmentBuilder fragmentOnRetryBuilder;
 
         public ExceptionDisplay(Throwable exception, FragmentBuilder fragmentOnRetryBuilder) {
             this.exception = exception;
@@ -41,9 +41,6 @@ public class ExceptionDisplayFragment extends FragmentHelper {
 
 
     public static class DefaultExceptionDisplay extends ExceptionDisplay {
-        private transient FragmentHelper fragment;
-        private transient View contentView;
-
         public DefaultExceptionDisplay(Throwable exception, FragmentBuilder fragmentOnRetryBuilder) {
             super(exception, fragmentOnRetryBuilder);
         }
@@ -53,13 +50,12 @@ public class ExceptionDisplayFragment extends FragmentHelper {
                                 LayoutInflater inflater,
                                 ViewGroup container,
                                 Bundle savedInstanceState) {
-            this.fragment = exceptionDisplayFragment;
-            this.contentView = inflater.inflate(R.layout.fragment_exception_display_default_display, null);
-            initContentView();
+            View contentView = inflater.inflate(R.layout.fragment_exception_display_default_display, null);
+            initContentView(exceptionDisplayFragment, contentView);
             return contentView;
         }
 
-        private void initContentView() {
+        private void initContentView(final FragmentHelper fragment, View contentView) {
             TextView exceptionDescriptionTextView = (TextView) contentView.findViewById(R.id.exception_description);
             exceptionDescriptionTextView.setText(getException().getMessage());
             contentView.findViewById(R.id.retry).setOnClickListener(new View.OnClickListener() {
