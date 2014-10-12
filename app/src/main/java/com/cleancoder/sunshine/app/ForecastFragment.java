@@ -7,7 +7,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 /**
  * Created by Leonid on 10.09.2014.
@@ -45,8 +46,9 @@ public class ForecastFragment extends BaseApplicationFragment {
 
     private void initContentView() {
         Forecast forecast = getForecast();
-        TextView forecastTextView = (TextView) contentView.findViewById(R.id.forecast);
-        forecastTextView.setText(forecast.getText());
+        ListView listView = (ListView) contentView.findViewById(R.id.list_view);
+        ListAdapter adapter = new ForecastArrayAdapter(getActivity(), forecast);
+        listView.setAdapter(adapter);
     }
 
     @Override
@@ -71,4 +73,5 @@ public class ForecastFragment extends BaseApplicationFragment {
             activity.refresh();
         }
     }
+
 }

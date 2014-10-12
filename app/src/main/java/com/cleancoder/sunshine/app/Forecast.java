@@ -3,6 +3,11 @@ package com.cleancoder.sunshine.app;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.common.base.Objects;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Leonid on 10.09.2014.
  */
@@ -20,18 +25,18 @@ public class Forecast implements Parcelable {
         }
     };
 
-    private final String text;
+    private List<DailyForecast> forecasts;
 
     public Forecast() {
-        this.text = "";
+        this.forecasts = new ArrayList<DailyForecast>();
     }
 
-    public Forecast(String text) {
-        this.text = text;
+    public void add(DailyForecast dailyForecast) {
+        forecasts.add(dailyForecast);
     }
 
     public Forecast(Parcel in) {
-        this.text = in.readString();
+        this.forecasts = in.readArrayList(DailyForecast.class.getClassLoader());
     }
 
     @Override
@@ -41,12 +46,39 @@ public class Forecast implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeString(text);
+        out.writeList(forecasts);
     }
 
-    public String getText() {
-        return text;
+    public int getForecastsNumber() {
+        return forecasts.size();
     }
 
+    public DailyForecast getForecast(int index) {
+        return forecasts.get(index);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Forecast)) {
+            return false;
+        }
+        Forecast other = (Forecast) obj;
+        return Objects.equal(forecasts, other.forecasts);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(forecasts);
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("forecasts", forecasts)
+                .toString();
+    }
 
 }

@@ -10,6 +10,8 @@ import com.cleancoder.sunshine.app.util.activity_fragment.FragmentHelper;
 import com.cleancoder.sunshine.app.util.activity_fragment.TaskFragment;
 import com.cleancoder.sunshine.app.util.HttpRequestor;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 
 /**
@@ -66,7 +68,7 @@ public class WeatherForecastReceiverFragment extends TaskFragment {
         task.execute();
     }
 
-    private Forecast receiveForecast() throws IOException {
+    private Forecast receiveForecast() throws IOException, JSONException {
         HttpRequestor httpRequestor = new HttpRequestor(prepareUrl());
         String response = httpRequestor.request();
         return FORECAST_PARSER.parse(response);
