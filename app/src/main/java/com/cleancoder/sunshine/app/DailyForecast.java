@@ -26,7 +26,7 @@ public class DailyForecast implements Parcelable {
     private int min;
     private int max;
     private long dateTime;
-    private String description;
+    private String weatherDescription;
 
     public DailyForecast() {
         // do nothing
@@ -36,7 +36,7 @@ public class DailyForecast implements Parcelable {
         min = in.readInt();
         max = in.readInt();
         dateTime = in.readLong();
-        description = in.readString();
+        weatherDescription = in.readString();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class DailyForecast implements Parcelable {
         out.writeInt(min);
         out.writeInt(max);
         out.writeLong(dateTime);
-        out.writeString(description);
+        out.writeString(weatherDescription);
     }
 
     @Override
@@ -79,13 +79,13 @@ public class DailyForecast implements Parcelable {
         return dateTime;
     }
 
-    public DailyForecast description(String description) {
-        this.description = description;
+    public DailyForecast weatherDescription(String weatherDescription) {
+        this.weatherDescription = weatherDescription;
         return this;
     }
 
-    public String getDescription() {
-        return description;
+    public String getWeatherDescription() {
+        return weatherDescription;
     }
 
     @Override
@@ -100,12 +100,12 @@ public class DailyForecast implements Parcelable {
         return ((min == other.min) &&
                 (max == other.max) &&
                 (dateTime == other.dateTime) &&
-                Objects.equal(description, other.description));
+                Objects.equal(weatherDescription, other.weatherDescription));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(min, max, dateTime, description);
+        return Objects.hashCode(min, max, dateTime, weatherDescription);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class DailyForecast implements Parcelable {
                 .add("min", min)
                 .add("max", max)
                 .add("dateTime", dateTime)
-                .add("description", description)
+                .add("weatherDescription", weatherDescription)
                 .toString();
     }
 

@@ -1,5 +1,6 @@
 package com.cleancoder.sunshine.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -7,13 +8,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.cleancoder.sunshine.app.util.ToastUtils;
 
 /**
  * Created by Leonid on 10.09.2014.
  */
 public class ForecastFragment extends BaseApplicationFragment {
+
+    private static final DailyForecastToStringConverter dailyForecastToStringConverter =
+                                    new SimpleDailyForecastToStringConverter();
 
     private static final String KEY_FORECAST = "KEY_FORECAST";
 
@@ -47,8 +54,22 @@ public class ForecastFragment extends BaseApplicationFragment {
     private void initContentView() {
         Forecast forecast = getForecast();
         ListView listView = (ListView) contentView.findViewById(R.id.list_view);
-        ListAdapter adapter = new ForecastArrayAdapter(getActivity(), forecast);
+        final ArrayAdapter<DailyForecast> adapter = new ForecastArrayAdapter(getActivity(), forecast.getForecasts());
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                onDailyForecastClicked(adapter.getItem(position));
+            }
+        });
+    }
+
+    private void onDailyForecastClicked(DailyForecast dailyForecast) {
+        ToastUtils.LONG.show(getContext(), "Click on:\n" +
+                dailyForecastToStringConverter.convertDailyForecastToString(dailyForecast));
+        Intent intent = new Intent(getContext(), DetailActivity.class);
+        DetailActivity.insertArguments(intent, dailyForecast);
+        startActivity(intent);
     }
 
     @Override

@@ -24,7 +24,7 @@ public class ForecastParser {
             dailyForecast.min(parseTemperature(temperature, "min"));
             dailyForecast.max(parseTemperature(temperature, "max"));
             JSONArray weather = forecastItem.getJSONArray("weather");
-            dailyForecast.description(parseDescription(weather));
+            dailyForecast.weatherDescription(parseDescription(weather));
             forecast.add(dailyForecast);
         }
         return forecast;

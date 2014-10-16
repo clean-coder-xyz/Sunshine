@@ -7,12 +7,12 @@ import java.util.Date;
 /**
  * Created by Leonid on 13.10.2014.
  */
-public class SimpleDailyForecastToString implements DailyForecastToStringConvertor {
+public class SimpleDailyForecastToStringConverter implements DailyForecastToStringConverter {
     @Override
     public String convertDailyForecastToString(DailyForecast dailyForecast) {
         String dateTime = dateTimeToString(dailyForecast.getDateTime());
         String minMax = dailyForecast.getMax() + "/" + dailyForecast.getMin();
-        return StringUtils.join(Arrays.asList(dateTime, dailyForecast.getDescription(), minMax), " - ");
+        return StringUtils.join(Arrays.asList(dateTime, dailyForecast.getWeatherDescription(), minMax), " - ");
     }
 
     private String dateTimeToString(long dateTime) {

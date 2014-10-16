@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 /**
  * Created by Leonid on 12.10.2014.
  */
@@ -14,29 +16,17 @@ public class ForecastArrayAdapter extends ArrayAdapter<DailyForecast> {
 
     private static final int LAYOUT_ID = R.layout.forecast_list_view_item;
 
-    private final Forecast forecast;
     private final LayoutInflater layoutInflater;
-    private DailyForecastToStringConvertor dailyForecastToStringConvertor;
+    private DailyForecastToStringConverter dailyForecastToStringConverter;
 
-    public ForecastArrayAdapter(Context context, Forecast forecast) {
-        super(context, LAYOUT_ID);
-        this.forecast = forecast;
+    public ForecastArrayAdapter(Context context, List<DailyForecast> forecasts) {
+        super(context, LAYOUT_ID, forecasts);
         this.layoutInflater = LayoutInflater.from(context);
-        this.dailyForecastToStringConvertor = new SimpleDailyForecastToString();
+        this.dailyForecastToStringConverter = new SimpleDailyForecastToStringConverter();
     }
 
-    public void setDailyForecastToStringConvertor(DailyForecastToStringConvertor dailyForecastToStringConvertor) {
-        this.dailyForecastToStringConvertor = dailyForecastToStringConvertor;
-    }
-
-    @Override
-    public int getCount() {
-        return forecast.getForecastsNumber();
-    }
-
-    @Override
-    public DailyForecast getItem(int position) {
-        return forecast.getForecast(position);
+    public void setDailyForecastToStringConverter(DailyForecastToStringConverter dailyForecastToStringConverter) {
+        this.dailyForecastToStringConverter = dailyForecastToStringConverter;
     }
 
     @Override
@@ -48,7 +38,7 @@ public class ForecastArrayAdapter extends ArrayAdapter<DailyForecast> {
 
     private void setItemView(View itemView, DailyForecast item) {
         TextView textView = (TextView) itemView.findViewById(R.id.text_view);
-        String text = dailyForecastToStringConvertor.convertDailyForecastToString(item);
+        String text = dailyForecastToStringConverter.convertDailyForecastToString(item);
         textView.setText(text);
     }
 

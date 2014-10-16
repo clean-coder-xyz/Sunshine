@@ -39,6 +39,10 @@ public class Forecast implements Parcelable {
         this.forecasts = in.readArrayList(DailyForecast.class.getClassLoader());
     }
 
+    public List<DailyForecast> getForecasts() {
+        return new ArrayList<DailyForecast>(forecasts);
+    }
+
     @Override
     public int describeContents() {
         return 0;
