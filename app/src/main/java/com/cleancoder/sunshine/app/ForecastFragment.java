@@ -19,9 +19,6 @@ import com.cleancoder.sunshine.app.util.ToastUtils;
  */
 public class ForecastFragment extends BaseApplicationFragment {
 
-    private static final DailyForecastToStringConverter dailyForecastToStringConverter =
-                                    new SimpleDailyForecastToStringConverter();
-
     private static final String KEY_FORECAST = "KEY_FORECAST";
 
     private View contentView;
@@ -54,7 +51,8 @@ public class ForecastFragment extends BaseApplicationFragment {
     private void initContentView() {
         Forecast forecast = getForecast();
         ListView listView = (ListView) contentView.findViewById(R.id.list_view);
-        final ArrayAdapter<DailyForecast> adapter = new ForecastArrayAdapter(getActivity(), forecast.getForecasts());
+        final ArrayAdapter<DailyForecast> adapter = new ForecastArrayAdapter(
+                getActivity(), forecast.getForecasts(), new SimpleDailyForecastToStringConverter(getContext()));
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -65,6 +63,8 @@ public class ForecastFragment extends BaseApplicationFragment {
     }
 
     private void onDailyForecastClicked(DailyForecast dailyForecast) {
+        DailyForecastToStringConverter dailyForecastToStringConverter =
+                new SimpleDailyForecastToStringConverter(getContext());
         ToastUtils.LONG.show(getContext(), "Click on:\n" +
                 dailyForecastToStringConverter.convertDailyForecastToString(dailyForecast));
         Intent intent = new Intent(getContext(), DetailActivity.class);

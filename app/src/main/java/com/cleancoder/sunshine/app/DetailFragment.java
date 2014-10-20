@@ -34,21 +34,33 @@ public class DetailFragment extends BaseApplicationFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         contentView = inflater.inflate(R.layout.fragment_detail, null);
-        initContentView();
+        init();
         return contentView;
     }
 
-    private void initContentView() {
-        displayForecast();
+    private void init() {
+        TextView textView = (TextView) contentView.findViewById(R.id.text_view);
+        String detail = getDetail();
+        textView.setText(detail);
+        String sharedDetailPostfix = getContext().getString(R.string.shared_detail_postfix);
+        String sharedDetail = detail + " " + sharedDetailPostfix;
+        DetailActivity detailActivity = (DetailActivity) getActivity();
+        detailActivity.setShareIntent(prepareSharedIntentFromText(sharedDetail));
     }
 
-    private void displayForecast() {
+    private String getDetail() {
         Intent intent = getActivity().getIntent();
         DailyForecast dailyForecast = intent.getParcelableExtra(KEY_DAILY_FORECAST);
-        DailyForecastToStringConverter converter = new SimpleDailyForecastToStringConverter();
-        TextView textView = (TextView) contentView.findViewById(R.id.text_view);
-        textView.setText(converter.convertDailyForecastToString(dailyForecast));
+        DailyForecastToStringConverter converter = new SimpleDailyForecastToStringConverter(getContext());
+        return converter.convertDailyForecastToString(dailyForecast);
     }
 
+    private Intent prepareSharedIntentFromText(String text) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        return intent;
+    }
 
 }

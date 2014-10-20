@@ -7,6 +7,29 @@
     <string name="retry">Retry</string>
     <string name="action_refresh" translatable="false">Refresh</string>
     <string name="title_activity_detail">Details</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="action_map">Location in a Map</string>
+    <string name="action_share">Share</string>
+
+    <string name="shared_detail_postfix">#SunshineApp</string>
+
+    <string name="temperature_symbol_metric">\u2103</string>
+    <string name="temperature_symbol_imperial">\u2109</string>
+
+    <string name="pref_label_location">Location</string>
+    <string name="pref_label_units">Units</string>
+
+    <string name="pref_key_location" translatable="false">location</string>
+    <string name="pref_key_units" translatable="false">units</string>
+
+    <string name="pref_default_location" translatable="false">94043</string>
+    <string name="pref_default_units">@string/pref_entry_value_metric</string>
+
+    <string name="pref_summary_units">Metric or Imperial</string>
+
+    <string name="pref_entry_value_metric" translatable="false">metric</string>
+    <string name="pref_entry_value_imperial" translatable="false">imperial</string>
+
+    <string name="pref_dialog_title_units">Units</string>
 
 </resources>

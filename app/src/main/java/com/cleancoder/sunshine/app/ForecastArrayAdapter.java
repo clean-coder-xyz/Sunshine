@@ -17,15 +17,12 @@ public class ForecastArrayAdapter extends ArrayAdapter<DailyForecast> {
     private static final int LAYOUT_ID = R.layout.forecast_list_view_item;
 
     private final LayoutInflater layoutInflater;
-    private DailyForecastToStringConverter dailyForecastToStringConverter;
+    private final DailyForecastToStringConverter dailyForecastToStringConverter;
 
-    public ForecastArrayAdapter(Context context, List<DailyForecast> forecasts) {
+    public ForecastArrayAdapter(Context context, List<DailyForecast> forecasts,
+                                DailyForecastToStringConverter dailyForecastToStringConverter) {
         super(context, LAYOUT_ID, forecasts);
         this.layoutInflater = LayoutInflater.from(context);
-        this.dailyForecastToStringConverter = new SimpleDailyForecastToStringConverter();
-    }
-
-    public void setDailyForecastToStringConverter(DailyForecastToStringConverter dailyForecastToStringConverter) {
         this.dailyForecastToStringConverter = dailyForecastToStringConverter;
     }
 
